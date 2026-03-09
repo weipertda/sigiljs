@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    // Environment setup & latest features
+    "lib": ["ESNext"],
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+    "allowJs": true,
+
+    // Best practices
+    "strict": false,
+    "skipLibCheck": true,
+    "noEmit": true
+  },
+  "exclude": ["node_modules", "dist"]
+}

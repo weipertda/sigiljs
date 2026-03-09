@@ -1,0 +1,9 @@
+{
+  "name": "sigiljs",
+  "version": "1.0.0",
+  "description": "Dependency-free, runtime-native type system for JavaScript",
+  "type": "module",
+  "scripts": {
+    "test": "bun test"
+  }
+}
