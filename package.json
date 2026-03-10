@@ -1,6 +1,6 @@
 {
-  "name": "sigiljs",
-  "version": "0.0.22",
+  "name": "@weipertda/sigiljs",
+  "version": "0.0.1",
   "description": "Runtime type sigils for JavaScript",
   "keywords": [
     "types",

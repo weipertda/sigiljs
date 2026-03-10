@@ -6,7 +6,7 @@ Using Bun:
 
 ```javascript
 
-bun add sigiljs
+bun add @weipertda/sigiljs
 
 ```
 
@@ -14,7 +14,7 @@ Using npm:
 
 ```javascript
 
-npm install sigiljs
+npm install @weipertda/sigiljs
 
 ```
 
@@ -24,7 +24,7 @@ npm install sigiljs
 
 ```javascript
 
-import { Sigil } from "sigiljs"
+import { Sigil } from "@weipertda/sigiljs"
 
 const Email = Sigil`string`
 

@@ -23,7 +23,7 @@ Just JavaScript.
 
 ```bash
 
-bun add sigiljs
+bun add @weipertda/sigiljs
 
 ```
 
@@ -31,7 +31,7 @@ bun add sigiljs
 
 ```bash
 
-npm install sigiljs
+npm install @weipertda/sigiljs
 
 ```
 
@@ -41,7 +41,7 @@ npm install sigiljs
 
 ```javascript
 
-import { Sigil } from "sigiljs"
+import { Sigil } from "@weipertda/sigiljs"
 
 const Email = Sigil`string`
 
@@ -150,7 +150,7 @@ SigilJS also provides a better ` typeof `.
 
 ```javascript
 
-import { realType } from "sigiljs"
+import { realType } from "@weipertda/sigiljs"
 
 realType([])        // "array"
 realType(null)      // "null"
@@ -202,7 +202,7 @@ Replacing the gaps in ` typeof ` — ` realType ` correctly identifies ` null `,
 
 ```javascript
 
-import { realType } from 'sigiljs';
+import { realType } from '@weipertda/sigiljs';
 
 realType('x');                 // "string"
 realType(null);                // "null"
