@@ -1,17 +1,21 @@
 # Arrays
 
-Use `[]` to describe arrays.
+Use ` [] ` to describe arrays.
 
 ```javascript
+
 Sigil`number[]`
+
 ```
 
 Example:
 
 ```javascript
+
 const Scores = Sigil`number[]`
 
 Scores.check([10, 20, 30])
+
 ```
 
 ---
@@ -19,7 +23,9 @@ Scores.check([10, 20, 30])
 Nested arrays are also supported.
 
 ```javascript
+
 Sigil`string[][]`
+
 ```
 
 ---
@@ -27,6 +33,7 @@ Sigil`string[][]`
 ## Arrays of Objects
 
 ```javascript
+
 const Orders = Sigil`
 {
   id: string
@@ -36,10 +43,13 @@ const Orders = Sigil`
   }[]
 }
 `
+
 ```
 
 Example:
 
 ```javascript
+
 Orders.check(data)
+
 ```

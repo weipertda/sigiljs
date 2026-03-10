@@ -2,15 +2,15 @@
 
 JavaScript programs constantly deal with data.
 
-API responses.
-User input.
-Configuration files.
-Database records.
-JSON payloads.
+* API responses.
+* User input.
+* Configuration files.
+* Database records.
+* JSON payloads.
 
 And the most common question we need to answer is simple:
 
-"Does this data actually match what I expect?"
+>"Does this data actually match what I expect?"
 
 JavaScript gives us very few tools to answer that question.
 

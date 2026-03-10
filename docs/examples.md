@@ -16,6 +16,7 @@ Common use cases:
 ## API Response Validation
 
 ```javascript
+
 const ApiResponse = Sigil`
 {
   user: {
@@ -26,6 +27,7 @@ const ApiResponse = Sigil`
 `
 
 ApiResponse.assert(await response.json())
+
 ```
 
 ---
@@ -33,6 +35,7 @@ ApiResponse.assert(await response.json())
 ## Config Validation
 
 ```javascript
+
 const Config = Sigil`
 {
   port: number
@@ -42,6 +45,7 @@ const Config = Sigil`
 `
 
 Config.assert(JSON.parse(configFile))
+
 ```
 
 ---
@@ -49,6 +53,7 @@ Config.assert(JSON.parse(configFile))
 ## Request Validation
 
 ```javascript
+
 const LoginRequest = Sigil`
 {
   email: string
@@ -57,6 +62,7 @@ const LoginRequest = Sigil`
 `
 
 LoginRequest.assert(req.body)
+
 ```
 
 ---
@@ -70,7 +76,9 @@ Each sigil provides two validation methods.
 Returns a boolean.
 
 ```javascript
+
 User.check(data)
+
 ```
 
 ### assert()
@@ -78,5 +86,7 @@ User.check(data)
 Throws an error if validation fails.
 
 ```javascript
+
 User.assert(data)
+
 ```
