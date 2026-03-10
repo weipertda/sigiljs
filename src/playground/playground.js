@@ -12,7 +12,7 @@ let value;
 try {
   value = JSON.parse(jsonStr);
 } catch (e) {
-  console.error("Invalid JSON input:", e.message);
+  console.error('Invalid JSON input:', e.message);
   process.exit(1);
 }
 
@@ -23,22 +23,28 @@ try {
   strings.raw = [sigilStr];
   sigil = T(strings);
 } catch (e) {
-  console.error("Invalid Sigil schema:", e.message);
+  console.error('Invalid Sigil schema:', e.message);
   process.exit(1);
 }
 
 try {
   sigil.assert(value);
-  console.log("✅ Validation passed");
+  console.log('✅ Validation passed');
   process.exit(0);
 } catch (e) {
-  console.error("❌ Validation failed");
-  console.error(JSON.stringify({
-    code: e.code,
-    message: e.message,
-    path: e.path,
-    expected: e.expected,
-    actual: e.actual
-  }, null, 2));
+  console.error('❌ Validation failed');
+  console.error(
+    JSON.stringify(
+      {
+        code: e.code,
+        message: e.message,
+        path: e.path,
+        expected: e.expected,
+        actual: e.actual,
+      },
+      null,
+      2,
+    ),
+  );
   process.exit(1);
 }

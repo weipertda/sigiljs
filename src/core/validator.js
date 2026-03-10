@@ -9,7 +9,7 @@ export function createValidator(schemaString) {
     const ast = parse(schemaString);
     const checkFn = compile(ast);
     validator = {
-      check: checkFn
+      check: checkFn,
     };
     schemaCache.set(schemaString, validator);
   }
