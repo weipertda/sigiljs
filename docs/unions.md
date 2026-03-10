@@ -1,25 +1,16 @@
 # Unions
 
-```javascript
-T`string | number`
-```
-
-Matches either type.
-
----
+Use `|` to allow multiple types.
 
 ```javascript
-T`{ name: string } | { age: number }`
+Sigil`string | number`
 ```
 
-Matches objects with either a name or an age shape, or both.
-
----
+Example:
 
 ```javascript
-T`string | { name: string }`
+const ID = Sigil`string | number`
+
+ID.check("abc")
+ID.check(123)
 ```
-
-Matches either a string or an object with a name property.
-
----

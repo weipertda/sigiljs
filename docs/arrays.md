@@ -1,40 +1,45 @@
 # Arrays
 
+Use `[]` to describe arrays.
+
 ```javascript
-T`number[]`
+Sigil`number[]`
 ```
 
-Matches arrays containing numbers.
+Example:
+
+```javascript
+const Scores = Sigil`number[]`
+
+Scores.check([10, 20, 30])
+```
 
 ---
 
-```javascript
-T`[string, number]`
-```
+Nested arrays are also supported.
 
-Matches arrays containing a string followed by a number.
+```javascript
+Sigil`string[][]`
+```
 
 ---
 
-```javascript
-T`[string, number, ...boolean[]]`
-```
-
-Matches arrays containing a string, a number, and then any number of booleans.
-
----
+## Arrays of Objects
 
 ```javascript
-const User = T`{
-  name: string
-  age: number
-  tags: string[]
+const Orders = Sigil`
+{
+  id: string
+  items: {
+    name: string
+    price: number
+  }[]
 }
+`
 ```
-Matches objects with the properties: name, age, and tags, whose values must be a string, a number, and an array of strings, respectively.
 
+Example:
 
 ```javascript
-User.check({ name: 'Doug', age: 42, tags: ['js'] }); // true
+Orders.check(data)
 ```
----
