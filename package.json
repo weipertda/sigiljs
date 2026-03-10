@@ -1,6 +1,6 @@
 {
   "name": "@weipertda/sigiljs",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "Runtime type sigils for JavaScript",
   "keywords": [
     "types",
@@ -13,14 +13,14 @@
     "bun",
     "javascript"
   ],
-  "author": {
-    "name": "Daniel Weipert",
-    "email": "weipertda@gmail.com"
-  },
-  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/weipertda/sigiljs.git"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Daniel Weipert",
+    "email": "weipertda@gmail.com"
   },
   "sideEffects": false,
   "type": "module",
