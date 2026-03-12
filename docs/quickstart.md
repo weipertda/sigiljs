@@ -50,6 +50,16 @@ If you want validation to throw errors instead:
 
 ```javascript
 
-Email.assert(42)
+try {
+  Email.assert(42)
+} catch (error) {
+  console.log(`
+  ${error.message}  // "Expected string, got number"
+  ${error.code}     // "SIGIL_VALIDATION_FAILED"
+  ${error.path}     // []
+  ${error.expected} // "string"
+  ${error.actual}   // "number"
+`)
+}
 
 ```
