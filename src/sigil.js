@@ -3,6 +3,7 @@ import { compile } from './core/compile.js';
 import { normalize } from './core/normalize.js';
 import { parse } from './core/parser.js';
 import { partial } from './core/partial.js';
+import { register } from './core/registry.js';
 import { validate } from './core/validate.js';
 
 // Memoize fully-constructed Sigil objects by raw schema string.
@@ -15,27 +16,19 @@ const _sigilCache = new Map();
  *
  * Each unique schema string is parsed, normalized, and compiled exactly once.
  * Subsequent calls with the same schema string return the cached sigil object.
- *
- * @param {TemplateStringsArray} strings
- * @param {...*} values - Interpolations (embedded JS values)
- * @returns {{ raw, ast, normalized, check, assert, compile }}
- *
- * @example
- * const User = Sigil`{ name: string, age?: number }`
- * User.check({ name: 'Alice' })  // true
- * User.assert({ name: 42 })      // throws SigilValidationError
  */
-export function Sigil(strings, ...values) {
+function createSigil(options, strings, ...values) {
   // Reconstruct raw string from template parts (supports interpolations)
   let raw = strings[0];
   for (let i = 0; i < values.length; i++) raw += values[i] + strings[i + 1];
 
-  // Return memoized sigil if already compiled
-  const cached = _sigilCache.get(raw);
+  // Cache key includes options to distinguish exact vs non-exact versions of same schema
+  const cacheKey = JSON.stringify(options) + raw;
+  const cached = _sigilCache.get(cacheKey);
   if (cached !== undefined) return cached;
 
   // Parse → Normalize → Partial-evaluate → Compile pipeline
-  const ast = parse(raw);
+  const ast = parse(raw, options);
   const normalized = partial(normalize(ast));
 
   // Warm validator cache eagerly (avoids cold-start cost on first .check() call)
@@ -45,11 +38,40 @@ export function Sigil(strings, ...values) {
     raw,
     ast,
     normalized,
+    options,
     check: (value, opts) => validate(sigil, value, opts),
     assert: (value, opts) => assert(sigil, value, opts),
     compile: () => compile(normalized),
   });
 
-  _sigilCache.set(raw, sigil);
+  _sigilCache.set(cacheKey, sigil);
   return sigil;
 }
+
+/**
+ * Default Sigil tagged template (non-strict objects).
+ */
+export function Sigil(strings, ...values) {
+  return createSigil({ exact: false }, strings, ...values);
+}
+
+/**
+ * Strict Sigil tagged template (exact objects, fails on extra properties).
+ */
+Sigil.exact = function (strings, ...values) {
+  return createSigil({ exact: true }, strings, ...values);
+};
+
+/**
+ * Creates a named Sigil and registers it in the global registry.
+ *
+ * @param {string} name
+ * @returns {Function} Tagged template function
+ */
+Sigil.named = function (name) {
+  return function (strings, ...values) {
+    const sigil = createSigil({ exact: false, named: name }, strings, ...values);
+    register(name, sigil);
+    return sigil;
+  };
+};

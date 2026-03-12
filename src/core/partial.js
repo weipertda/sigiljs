@@ -54,6 +54,7 @@ export function partial(ast) {
         kind: 'object',
         properties,
         hints: { requiredKeys, optionalKeys },
+        exact: ast.exact,
       };
     }
 

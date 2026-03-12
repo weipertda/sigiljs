@@ -43,7 +43,7 @@ export function normalize(ast) {
         optional: p.optional,
         value: normalize(p.value),
       }));
-      return { kind: 'object', properties };
+      return { kind: 'object', properties, exact: ast.exact };
     }
 
     default:

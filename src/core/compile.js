@@ -1,5 +1,9 @@
 import { realType } from '../core/realType.js';
-import { validatorCache, canonicalize } from './cache.js';
+import {
+  canonicalize,
+  validatorCache,
+} from './cache.js';
+import { resolve } from './registry.js';
 
 /**
  * Compiles a normalized+partially-evaluated SigilJS AST into a fast validator function.
@@ -25,9 +29,10 @@ export function compile(ast) {
 /**
  * Recursively builds a validator closure from an AST node.
  * @param {object} ast
+ * @param {Set<string>} [visited] - Track visited identifiers for recursion safety
  * @returns {Function}
  */
-function build(ast) {
+function build(ast, visited = new Set()) {
   switch (ast.kind) {
     case 'primitive': {
       const p = ast.name;
@@ -80,7 +85,7 @@ function build(ast) {
     }
 
     case 'union': {
-      const fns = ast.members.map(build);
+      const fns = ast.members.map((m) => build(m, visited));
       const len = fns.length;
       return (v, opts) => {
         for (let i = 0; i < len; i++) {
@@ -91,7 +96,7 @@ function build(ast) {
     }
 
     case 'array': {
-      const el = build(ast.element);
+      const el = build(ast.element, visited);
       return (v, opts) => {
         if (!Array.isArray(v)) return false;
         for (let i = 0; i < v.length; i++) {
@@ -102,7 +107,7 @@ function build(ast) {
     }
 
     case 'optional': {
-      const inner = build(ast.inner);
+      const inner = build(ast.inner, visited);
       return (v, opts) => v === undefined || inner(v, opts);
     }
 
@@ -114,27 +119,35 @@ function build(ast) {
         hints ?
           hints.requiredKeys.map((k) => ({
             key: k,
-            check: build(properties.find((p) => p.key === k).value),
+            check: build(properties.find((p) => p.key === k).value, visited),
           }))
         : properties
             .filter((p) => !p.optional)
-            .map((p) => ({ key: p.key, check: build(p.value) }));
+            .map((p) => ({ key: p.key, check: build(p.value, visited) }));
       const opt =
         hints ?
           hints.optionalKeys.map((k) => ({
             key: k,
-            check: build(properties.find((p) => p.key === k).value),
+            check: build(properties.find((p) => p.key === k).value, visited),
           }))
         : properties
             .filter((p) => p.optional)
-            .map((p) => ({ key: p.key, check: build(p.value) }));
+            .map((p) => ({ key: p.key, check: build(p.value, visited) }));
 
       const reqLen = req.length;
       const optLen = opt.length;
+      const allowedKeys = ast.exact ? new Set(properties.map((p) => p.key)) : null;
 
       return (v, opts) => {
         if (typeof v !== 'object' || v === null || Array.isArray(v))
           return false;
+
+        if (ast.exact) {
+          for (const key in v) {
+            if (!allowedKeys.has(key)) return false;
+          }
+        }
+
         for (let i = 0; i < reqLen; i++) {
           const p = req[i];
           if (!(p.key in v) || !p.check(v[p.key], opts)) return false;
@@ -146,6 +159,27 @@ function build(ast) {
         }
         return true;
       };
+    }
+
+    case 'identifier': {
+      const name = ast.name;
+      const sigil = resolve(name);
+
+      // If the sigil isn't registered yet, or if we are currently visiting it (circularity),
+      // we return a lazy wrapper that resolves the sigil at validation time.
+      if (!sigil || visited.has(name)) {
+        return (val, o) => {
+          const resolved = resolve(name);
+          if (!resolved) throw new Error(`Unknown sigil reference: ${name}`);
+          return resolved.check(val, o);
+        };
+      }
+
+      visited.add(name);
+      const target = sigil.normalized || sigil.ast;
+      const check = build(target, visited);
+      visited.delete(name);
+      return check;
     }
 
     default:

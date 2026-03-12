@@ -1,4 +1,4 @@
-import { T } from './index.js';
+import { T } from '../index.js';
 
 const jsonStr = process.argv[2];
 const sigilStr = process.argv[3];

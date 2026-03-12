@@ -23,7 +23,7 @@ Just JavaScript.
 
 ```bash
 
-bun add @weipertda/sigiljs
+bun add @antistructured/sigiljs
 
 ```
 
@@ -31,7 +31,7 @@ bun add @weipertda/sigiljs
 
 ```bash
 
-npm install @weipertda/sigiljs
+npm install @antistructured/sigiljs
 
 ```
 
@@ -41,7 +41,7 @@ npm install @weipertda/sigiljs
 
 ```javascript
 
-import { Sigil } from "@weipertda/sigiljs"
+import { Sigil } from "@antistructured/sigiljs"
 
 const Email = Sigil`string`
 
@@ -150,7 +150,7 @@ SigilJS also provides a better ` typeof `.
 
 ```javascript
 
-import { realType } from "@weipertda/sigiljs"
+import { realType } from "@antistructured/sigiljs"
 
 realType([])        // "array"
 realType(null)      // "null"
@@ -202,7 +202,7 @@ Replacing the gaps in ` typeof ` — ` realType ` correctly identifies ` null `,
 
 ```javascript
 
-import { realType } from '@weipertda/sigiljs';
+import { realType } from '@antistructured/sigiljs';
 
 realType('x');                 // "string"
 realType(null);                // "null"
@@ -251,7 +251,7 @@ You can securely test out Sigil validator schemas against JSON inputs directly f
 
 ```bash
 
-bun run src/playground.js '{"name": "Doug"}' '{name: string, age?: number}'
+bun run src/playground/playground.js '{"name": "D"}' '{name: string}'
 # ✅ Validation passed
 
 ```

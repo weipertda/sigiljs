@@ -6,7 +6,7 @@ Using Bun:
 
 ```javascript
 
-bun add @weipertda/sigiljs
+bun add @antistructured/sigiljs
 
 ```
 
@@ -14,7 +14,7 @@ Using npm:
 
 ```javascript
 
-npm install @weipertda/sigiljs
+npm install @antistructured/sigiljs
 
 ```
 
@@ -24,7 +24,7 @@ npm install @weipertda/sigiljs
 
 ```javascript
 
-import { Sigil } from "@weipertda/sigiljs"
+import { Sigil } from "@antistructured/sigiljs"
 
 const Email = Sigil`string`
 

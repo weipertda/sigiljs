@@ -1,6 +1,6 @@
 {
-  "name": "@weipertda/sigiljs",
-  "version": "0.0.3",
+  "name": "@antistructured/sigiljs",
+  "version": "0.1.0",
   "description": "Runtime type sigils for JavaScript",
   "keywords": [
     "types",
@@ -15,7 +15,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/weipertda/sigiljs.git"
+    "url": "git+https://github.com/antistructured/sigiljs.git"
   },
   "license": "MIT",
   "author": {
@@ -37,7 +37,10 @@
   "scripts": {
     "format": "prettier --write src/",
     "lint": "eslint src/",
-    "test": "bun test"
+    "test": "bun test",
+    "release:patch": "npm version patch && git push --follow-tags && npm publish --access public",
+    "release:minor": "npm version minor && git push --follow-tags && npm publish --access public",
+    "release:major": "npm version major && git push --follow-tags && npm publish --access public"
   },
   "engines": {
     "bun": ">=1",

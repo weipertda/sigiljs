@@ -29,13 +29,14 @@ const PRIMITIVES = new Set([
  *   { kind: 'union',      members }
  *   { kind: 'array',      element }
  *   { kind: 'optional',   inner }
- *   { kind: 'object',     properties: [{ key, optional, value }] }
+ *   { kind: 'object',     properties: [{ key, optional, value }], exact }
  *   { kind: 'identifier', name }
  *
  * @param {string|Array} input
+ * @param {object} [options]
  * @returns {object} AST node
  */
-export function parse(input) {
+export function parse(input, options = {}) {
   const tokens = typeof input === 'string' ? tokenize(input) : input;
   let pos = 0;
 
@@ -212,7 +213,7 @@ export function parse(input) {
     }
 
     consume('}', 'Expected closing block brace');
-    return { kind: 'object', properties };
+    return { kind: 'object', properties, exact: !!options.exact };
   }
 
   return parseSigil();

@@ -46,6 +46,7 @@ describe('parser', () => {
   it('parses objects with comma', () => {
     expect(parse('{ name: string, age?: number }')).toEqual({
       kind: 'object',
+      exact: false,
       properties: [
         { key: 'name', optional: false, value: { kind: 'primitive', name: 'string' } },
         { key: 'age', optional: true, value: { kind: 'primitive', name: 'number' } }
@@ -60,6 +61,7 @@ describe('parser', () => {
     }`
     expect(parse(input)).toEqual({
       kind: 'object',
+      exact: false,
       properties: [
         { key: 'name', optional: false, value: { kind: 'primitive', name: 'string' } },
         { key: 'age', optional: true, value: { kind: 'primitive', name: 'number' } }
